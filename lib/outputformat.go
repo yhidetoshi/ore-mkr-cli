@@ -10,7 +10,7 @@ func OutputFormat(data [][]string, resourceType string) {
 
 	switch resourceType{
 	case HOST:
-		table.SetHeader([]string{"STATUS", "HOSTNAME",  "TYPE", "SERVICE/ROLE","CREATED"})
+		table.SetHeader([]string{"STATUS", "HOSTNAME", "ID",  "TYPE", "SERVICE/ROLE","CREATED"})
 	}
 
 	for _, value := range data{
