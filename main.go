@@ -65,4 +65,13 @@ func main() {
 		}
 	}
 
+	// Monitor Commands
+	if *argType == "monitor" {
+		oremkrcli.FetchMonitorIDs(client)
+	}
+
+	if *argType == "alert" {
+		oremkrcli.FetchOpenAlertIDs(client)
+	}
+
 }
