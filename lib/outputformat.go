@@ -8,12 +8,16 @@ import (
 func OutputFormat(data [][]string, resourceType string) {
 	table := tablewriter.NewWriter(os.Stdout)
 
-	switch resourceType{
+	switch resourceType {
 	case HOST:
-		table.SetHeader([]string{"STATUS", "HOSTNAME", "ID",  "TYPE", "SERVICE/ROLE","CREATED"})
+		table.SetHeader([]string{"STATUS", "HOSTNAME", "ID", "TYPE", "SERVICE/ROLE", "CREATED"})
+	case MONITOR:
+		table.SetHeader([]string{"ID", "NAME", "SCOPE", "WARNNING", "CRITICAL", "DURATION", "MAX_ATTEMPTS", "OVERVIEW"})
+	case ALERT:
+		table.SetHeader([]string{"ID", "NAME"})
 	}
 
-	for _, value := range data{
+	for _, value := range data {
 		table.Append(value)
 	}
 	table.Render()
