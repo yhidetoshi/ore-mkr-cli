@@ -24,12 +24,12 @@ type AlertValues struct {
 	ClosedAt  int64   `json:"closedAt,omitempty"`
 }
 
-func FetchOpenAlertIDs(client *mackerel.Client){
+func FetchOpenAlertIDs(client *mackerel.Client) {
 	var listOpenAlerts [][]string
 	var alertValues AlertValues
 
 	res, err := client.FindAlerts()
-	if err != nil{
+	if err != nil {
 		fmt.Println("fail get alerts")
 	}
 
@@ -45,9 +45,8 @@ func FetchOpenAlertIDs(client *mackerel.Client){
 		listOpenAlert := []string{
 			alert.ID,
 			alert.Status,
-			fmt.Sprint(time.Unix(alert.OpenedAt,0)),
+			fmt.Sprint(time.Unix(alert.OpenedAt, 0)),
 			alert.Message,
-
 		}
 		listOpenAlerts = append(listOpenAlerts, listOpenAlert)
 	}
