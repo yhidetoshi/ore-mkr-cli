@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
+	"os"
+
 	"github.com/mackerelio/mackerel-client-go"
 	oremkrcli "github.com/yhidetoshi/ore-mkr-cli/lib"
-	"os"
 )
 
 var (
