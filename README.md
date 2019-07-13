@@ -12,7 +12,6 @@ mkrKeyOrgB = os.Getenv("MKRKEY_OrgB")
 今回は ORGを`orgA` と `orgB` としているので、以下のコードを実際のORG名に適宜変更しても使える
 
 ```
-// set mkr key each org
 OrgA        = "orgA"
 OrgB        = "orgB"
 ```
