@@ -25,9 +25,7 @@ type AlertValues struct {
 }
 
 func FetchOpenAlertIDs(client *mackerel.Client){
-
 	var listOpenAlerts [][]string
-
 	var alertValues AlertValues
 
 	res, err := client.FindAlerts()
