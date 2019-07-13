@@ -34,11 +34,9 @@ func FetchOpenAlertIDs(client *mackerel.Client) {
 	}
 
 	for _, alert := range res.Alerts {
-
 		valueBytesJSON, _ := json.Marshal(res)
-		bytesValue := []byte(valueBytesJSON)
 
-		if err := json.Unmarshal(bytesValue, &alertValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, &alertValues); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
 

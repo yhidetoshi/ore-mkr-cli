@@ -115,9 +115,8 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
-		bytesValue := []byte(valueBytesJSON)
 
-		if err := json.Unmarshal(bytesValue, &monitorConnectivityValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, &monitorConnectivityValues); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
 		scope := strings.Join(monitorConnectivityValues.Scopes, ":")
@@ -144,9 +143,8 @@ func (mhm *MonitorHostMetric) DescribeMonitorHostByID(client *mackerel.Client, l
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
-		bytesValue := []byte(valueBytesJSON)
 
-		if err := json.Unmarshal(bytesValue, &monitorHostValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, &monitorHostValues); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
 		scope := strings.Join(monitorHostValues.Scopes, ":")
@@ -190,9 +188,8 @@ func (meh MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackere
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
-		bytesValue := []byte(valueBytesJSON)
 
-		if err := json.Unmarshal(bytesValue, &monitorExternalHTTPValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, &monitorExternalHTTPValues); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
 		monitorList := []string{
