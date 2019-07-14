@@ -3,8 +3,9 @@ package oremkrcli
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mackerelio/mackerel-client-go"
 	"strings"
+
+	"github.com/mackerelio/mackerel-client-go"
 )
 
 const (
@@ -92,12 +93,12 @@ func FetchMonitorIDs(client *mackerel.Client) {
 			listMonitorsExternalIDs = append(listMonitorsExternalIDs, v.MonitorID())
 		}
 	}
-	mhm := &MonitorHostMetric{}
+	mhv := &MonitorHostValues{}
 	meh := &MonitorExternalHTTPValues{}
 	mc := &MonitorConnectivityValues{}
 
 	MergeMonitorResult(
-		mhm.DescribeMonitorHostByID(client, listMonitorsHostIDs),
+		mhv.DescribeMonitorHostByID(client, listMonitorsHostIDs),
 		meh.DescribeMonitorExternalByID(client, listMonitorsExternalIDs),
 		mc.MonitorConnectivityByID(client, listMonitorConnectivityIDs),
 	)
@@ -109,101 +110,96 @@ func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connec
 }
 
 func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Client, list []string) [][]string {
-	var monitorConnectivityValues MonitorConnectivityValues
 	monitorLists := [][]string{}
 
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
 
-		if err := json.Unmarshal(valueBytesJSON, &monitorConnectivityValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, mc); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
-		scope := strings.Join(monitorConnectivityValues.Scopes, ":")
+		scope := strings.Join(mc.Scopes, ":")
 		monitorList := []string{
-			monitorConnectivityValues.ID,
-			monitorConnectivityValues.Name,
+			//monitorConnectivityValues.ID,
+			mc.ID,
+			mc.Name,
 			scope,
 			BLANK,
 			BLANK,
 			BLANK,
 			BLANK,
-			monitorConnectivityValues.Memo,
+			mc.Memo,
 		}
 		monitorLists = append(monitorLists, monitorList)
 	}
 	return monitorLists
 }
 
-func (mhm *MonitorHostMetric) DescribeMonitorHostByID(client *mackerel.Client, list []string) [][]string {
-	var monitorHostValues MonitorHostValues
-	var stringCritical, stringWarninng string
+func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, list []string) [][]string {
+	var stringCritical, stringWarning string
 	monitorLists := [][]string{}
 
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
 
-		if err := json.Unmarshal(valueBytesJSON, &monitorHostValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, mhv); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
-		scope := strings.Join(monitorHostValues.Scopes, ":")
+		scope := strings.Join(mhv.Scopes, ":")
 		// warninngがセットされてない場合の処理
-		if monitorHostValues.Warning == nil {
-			stringWarninng = ""
+		if mhv.Warning == nil {
+			stringWarning = ""
 		} else {
-			stringWarninng = fmt.Sprint(*monitorHostValues.Warning)
+			stringWarning = fmt.Sprint(*mhv.Warning)
 		}
 
 		// criticalがセットされてない場合の処理
-		if monitorHostValues.Critical == nil {
+		if mhv.Critical == nil {
 			stringCritical = ""
 		} else {
-			stringCritical = fmt.Sprint(*monitorHostValues.Critical)
+			stringCritical = fmt.Sprint(*mhv.Critical)
 		}
 
 		monitorList := []string{
-			monitorHostValues.ID,
-			monitorHostValues.Name,
-			//monitorHostValues.Type,
+			mhv.ID,
+			mhv.Name,
+			//mhv.Type,
 			scope,
-			stringWarninng,
+			stringWarning,
 			stringCritical,
-			fmt.Sprint(monitorHostValues.Duration),
-			fmt.Sprint(monitorHostValues.MaxCheckAttempts),
-			monitorHostValues.Memo,
+			fmt.Sprint(mhv.Duration),
+			fmt.Sprint(mhv.MaxCheckAttempts),
+			mhv.Memo,
 		}
 
 		monitorLists = append(monitorLists, monitorList)
 	}
-	//OutputFormat(monitorLists, MONITOR)
 	return monitorLists
 }
 
-func (meh MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackerel.Client, list []string) [][]string {
-	var monitorExternalHTTPValues MonitorExternalHTTPValues
-
+func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackerel.Client, list []string) [][]string {
 	monitorLists := [][]string{}
 
 	for i := range list {
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
 
-		if err := json.Unmarshal(valueBytesJSON, &monitorExternalHTTPValues); err != nil {
+		if err := json.Unmarshal(valueBytesJSON, meh); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
 		monitorList := []string{
-			monitorExternalHTTPValues.ID,
-			monitorExternalHTTPValues.Name,
-			monitorExternalHTTPValues.Service,
-			fmt.Sprint(*monitorExternalHTTPValues.ResponseTimeWarning),
-			fmt.Sprint(*monitorExternalHTTPValues.ResponseTimeCritical),
-			fmt.Sprint(*monitorExternalHTTPValues.ResponseTimeDuration),
-			fmt.Sprint(monitorExternalHTTPValues.MaxCheckAttempts),
-			monitorExternalHTTPValues.Memo,
+			meh.ID,
+			meh.Name,
+			meh.Service,
+			fmt.Sprint(*meh.ResponseTimeWarning),
+			fmt.Sprint(*meh.ResponseTimeCritical),
+			fmt.Sprint(*meh.ResponseTimeDuration),
+			fmt.Sprint(meh.MaxCheckAttempts),
+			meh.Memo,
 		}
 		monitorLists = append(monitorLists, monitorList)
 	}
-	//OutputFormat(monitorLists, MONITOR)
 	return monitorLists
 }
