@@ -75,4 +75,8 @@ func main() {
 		oremkrcli.FetchOpenAlertIDs(client)
 	}
 
+	if *argType == "user" {
+		oremkrcli.FetchUsers(client)
+	}
+
 }
