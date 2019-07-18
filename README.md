@@ -1,3 +1,11 @@
+## はじめに
+
+Mackerelで運用するときによく行う情報参照や操作をCLIで楽に行うために、結果をテーブル出力するツールを作りました。
+ツール作成には`mackerel-client-go`を利用しています。
+
+- mackerel-client-go
+  - https://github.com/mackerelio/mackerel-client-go
+
 ## 初期設定 (ORGの設定)
 
 環境変数にMackerelのAPI-KEYをセットする
@@ -22,7 +30,10 @@ OrgB        = "orgB"
 
 ## 使い方(コマンドオプション)
 
-### host
+### ホスト系
+- Mackerel API ドキュメント
+  - https://mackerel.io/ja/api-docs/entry/hosts
+
 ```
   ■ 一覧
     > $ ore-mkr -org=<ORG> -type=host
@@ -36,7 +47,10 @@ OrgB        = "orgB"
 ![host一覧結果](./img/ore-mkr-host-list.png)
 
 
-### 監視設定
+### 監視設定系
+- Mackerel API ドキュメント
+  - https://mackerel.io/ja/api-docs/entry/monitors
+
 ```
   ■ 一覧 
     > $ ore-mkr -org=<ORG> -type=monitor
@@ -47,7 +61,25 @@ OrgB        = "orgB"
 
 
 
-### アラート一覧
+### ユーザ系
+- Mackerel API ドキュメント
+  - https://mackerel.io/ja/api-docs/entry/users
+  - mackerel-client-goにAPI実装がなかったのでPR作成してMergeしてもらった
+    - https://github.com/mackerelio/mackerel-client-go/pull/92
+
+``` 
+  ■ 一覧 
+    > $ ore-mkr -org=<ORG> -type=user
+```
+
+[実行結果]
+![monitor一覧結果](./img/ore-mkr-user-list.png)
+
+
+### アラート系
+- Mackerel API ドキュメント
+  - https://mackerel.io/ja/api-docs/entry/alerts
+
 ```
   ■ 一覧
     > $ ore-mkr -org=<ORG> -type=alert
