@@ -3,6 +3,7 @@ package oremkrcli
 import (
 	"fmt"
 	"github.com/mackerelio/mackerel-client-go"
+	"strings"
 	"time"
 )
 
@@ -28,14 +29,18 @@ func FetchUsers(client *mackerel.Client) {
 	if err != nil {
 		fmt.Println("fail get users")
 	}
-	//fmt.Println(users)
+
 	for _, v := range users {
+
+		authMethod := strings.Join(v.AuthenticationMethods, ",")
 		userList := []string{
 			v.ID,
 			v.ScreenName,
-			v.Email,
+			//v.Email,
 			v.Authority,
-			//v.AuthenticationMethods,
+			authMethod,
+			fmt.Sprint(v.IsMFAEnabled),
+			fmt.Sprint(v.IsInRegistrationProcess),
 			fmt.Sprint(time.Unix(v.JoinedAt, 0)),
 		}
 

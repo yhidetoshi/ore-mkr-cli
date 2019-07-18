@@ -16,7 +16,7 @@ func OutputFormat(data [][]string, resourceType string) {
 	case ALERT:
 		table.SetHeader([]string{"ID", "NAME"})
 	case USER:
-		table.SetHeader([]string{"ID", "NAME", "EMAIL", "AUTHORITY", "JOINAT"})
+		table.SetHeader([]string{"ID", "NAME", "AUTHORITY", "AUTHMETHOD", "MFA", "REGISTRATION", "JOINAT"})
 	}
 
 	for _, value := range data {
