@@ -65,6 +65,7 @@ OrgB        = "orgB"
   - https://mackerel.io/ja/api-docs/entry/users
   - mackerel-client-goにAPI実装がなかったのでPR作成してMergeしてもらった
     - https://github.com/mackerelio/mackerel-client-go/pull/92
+    - Blog: https://yhidetoshi.hatenablog.com/entry/2019/07/20/093148
 
 ``` 
   ■ 一覧 
