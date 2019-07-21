@@ -1,6 +1,6 @@
 .PHONY: test
 test: lint gofmt
-	go test -v ./...
+
 
 .PHONY: testdeps
 testdeps:
