@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/yhidetoshi/ore-mkr-cli.svg?branch=master)][travis]
+
 ## はじめに
 
 Mackerelで運用するときによく行う情報参照や操作をCLIで楽に行うために、結果をテーブル出力するツールを作りました。
