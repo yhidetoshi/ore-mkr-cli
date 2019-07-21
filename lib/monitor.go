@@ -9,10 +9,13 @@ import (
 )
 
 const (
+	// MONITOR monitor
 	MONITOR = "monitor"
-	BLANK   = ""
+	// BLANK null
+	BLANK = ""
 )
 
+// MonitorHostMetric information
 type MonitorHostMetric struct {
 	id          string
 	name        string
@@ -20,6 +23,7 @@ type MonitorHostMetric struct {
 	monitorType string
 }
 
+// MonitorHostValues information
 type MonitorHostValues struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
@@ -39,6 +43,7 @@ type MonitorHostValues struct {
 	MaxCheckAttempts uint64   `json:"maxCheckAttempts,omitempty"`
 }
 
+// MonitorConnectivityValues information
 type MonitorConnectivityValues struct {
 	ID                   string `json:"id,omitempty"`
 	Name                 string `json:"name,omitempty"`
@@ -51,6 +56,7 @@ type MonitorConnectivityValues struct {
 	ExcludeScopes []string `json:"excludeScopes,omitempty"`
 }
 
+// MonitorExternalHTTPValues information
 type MonitorExternalHTTPValues struct {
 	ID                   string `json:"id,omitempty"`
 	Name                 string `json:"name,omitempty"`
@@ -73,6 +79,7 @@ type MonitorExternalHTTPValues struct {
 	SkipCertificateVerification     bool     `json:"skipCertificateVerification,omitempty"`
 }
 
+// FetchMonitorIDs fetch monitor ids.
 func FetchMonitorIDs(client *mackerel.Client) {
 	var listMonitorsHostIDs []string
 	var listMonitorConnectivityIDs []string
@@ -104,11 +111,13 @@ func FetchMonitorIDs(client *mackerel.Client) {
 	)
 }
 
+// MergeMonitorResult merge monitor results.
 func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connectivityResult [][]string) {
 	merged := append(hostResult, externalResult...)
 	OutputFormat(append(merged, connectivityResult...), MONITOR)
 }
 
+//MonitorConnectivityByID find monitor connectivity by id.
 func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Client, list []string) [][]string {
 	monitorLists := [][]string{}
 
@@ -136,6 +145,7 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 	return monitorLists
 }
 
+// DescribeMonitorHostByID describe monitor hosts by id.
 func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, list []string) [][]string {
 	var stringCritical, stringWarning string
 	monitorLists := [][]string{}
@@ -179,6 +189,7 @@ func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, l
 	return monitorLists
 }
 
+// DescribeMonitorExternalByID describe monitor external by id.
 func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackerel.Client, list []string) [][]string {
 	monitorLists := [][]string{}
 

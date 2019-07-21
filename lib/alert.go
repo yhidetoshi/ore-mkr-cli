@@ -8,9 +8,11 @@ import (
 )
 
 const (
+	//ALERT alert
 	ALERT = "alert"
 )
 
+// AlertValues information
 type AlertValues struct {
 	ID        string  `json:"id,omitempty"`
 	Status    string  `json:"status,omitempty"`
@@ -24,6 +26,7 @@ type AlertValues struct {
 	ClosedAt  int64   `json:"closedAt,omitempty"`
 }
 
+// FetchOpenAlertIDs fetch alerts.
 func FetchOpenAlertIDs(client *mackerel.Client) {
 	var listOpenAlerts [][]string
 	var alertValues AlertValues

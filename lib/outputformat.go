@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// OutputFormat output table.
 func OutputFormat(data [][]string, resourceType string) {
 	table := tablewriter.NewWriter(os.Stdout)
 

@@ -27,12 +27,18 @@ var (
 
 	client = mackerel.NewClient("")
 
-	OrgA        = "orgA"
-	OrgB        = "orgB"
-	WORKING     = "working"
-	STANDBY     = "standby"
+	// OrgA first org
+	OrgA = "orgA"
+	// OrgB second org
+	OrgB = "orgB"
+	// WORKING status
+	WORKING = "working"
+	// STANDBY status
+	STANDBY = "standby"
+	// MAINTENANCE status
 	MAINTENANCE = "maintenance"
-	POWEROFF    = "poweroff"
+	// POWEROFF status
+	POWEROFF = "poweroff"
 )
 
 func main() {
