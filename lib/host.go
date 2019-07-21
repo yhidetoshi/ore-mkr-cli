@@ -7,16 +7,18 @@ import (
 )
 
 const (
+	// HOST host
 	HOST = "host"
 )
 
+// FetchHost fetch hosts
 func FetchHost(client *mackerel.Client) {
-	hostId, _ := client.FindHosts(
+	hostID, _ := client.FindHosts(
 		&mackerel.FindHostsParam{Statuses: []string{"working", "standby", "maintenance", "poweroff"}})
 
 	hostLists := [][]string{}
 
-	for _, v := range hostId {
+	for _, v := range hostID {
 		//fmt.Println(v.Name)
 
 		// convert int32 to string
@@ -36,11 +38,12 @@ func FetchHost(client *mackerel.Client) {
 	OutputFormat(hostLists, HOST)
 }
 
+// MakeHostStatus change host status
 func MakeHostStatus(client *mackerel.Client, hostIDs string, status string) {
 	// カンマ区切りを配列に変換
 	targetHostIDs := strings.Split(hostIDs, ",")
 
-	for i, _ := range targetHostIDs {
+	for i := range targetHostIDs {
 		err := client.UpdateHostStatus(targetHostIDs[i], status)
 		if err != nil {
 			fmt.Println("Failed status change: %v\n", targetHostIDs[i])

@@ -8,9 +8,11 @@ import (
 )
 
 const (
+	// USER user
 	USER = "user"
 )
 
+// UserValues information
 type UserValues struct {
 	ID         string `json:"id,omitempty"`
 	ScreenName string `json:"screenName,omitempty"`
@@ -23,6 +25,7 @@ type UserValues struct {
 	JoinedAt                int64    `json:"joinedAt,omitempty"`
 }
 
+// FetchUsers fetch users
 func FetchUsers(client *mackerel.Client) {
 	userLists := [][]string{}
 	users, err := client.FindUsers()
