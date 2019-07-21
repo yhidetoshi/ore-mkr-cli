@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/yhidetoshi/ore-mkr-cli.svg?branch=master)][travis]
+[![Build Status](https://travis-ci.org/yhidetoshi/ore-mkr-cli.svg?branch=master)](https://travis-ci.org/yhidetoshi/ore-mkr-cli)
+
 
 ## はじめに
 
