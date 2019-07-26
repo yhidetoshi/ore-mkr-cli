@@ -27,13 +27,13 @@ type AlertValues struct {
 }
 
 // FetchOpenAlertIDs fetch alerts.
-func FetchOpenAlertIDs(client *mackerel.Client) {
+func FetchOpenAlertIDs(client *mackerel.Client) error {
 	var listOpenAlerts [][]string
 	var alertValues AlertValues
 
 	res, err := client.FindAlerts()
 	if err != nil {
-		fmt.Println("fail get alerts")
+		fmt.Println(err)
 	}
 
 	for _, alert := range res.Alerts {
@@ -55,4 +55,6 @@ func FetchOpenAlertIDs(client *mackerel.Client) {
 	}
 
 	OutputFormat(listOpenAlerts, ALERT)
+
+	return nil
 }

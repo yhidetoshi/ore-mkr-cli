@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"github.com/mackerelio/mackerel-client-go"
@@ -29,14 +30,19 @@ var (
 
 	// OrgA first org
 	OrgA = "orgA"
+
 	// OrgB second org
 	OrgB = "orgB"
+
 	// WORKING status
 	WORKING = "working"
+
 	// STANDBY status
 	STANDBY = "standby"
+
 	// MAINTENANCE status
 	MAINTENANCE = "maintenance"
+
 	// POWEROFF status
 	POWEROFF = "poweroff"
 )
@@ -57,32 +63,58 @@ func main() {
 	if *argType == "host" {
 		if *argWorking {
 			status := WORKING
-			oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else if *argStandby {
 			status := STANDBY
-			oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else if *argMaintenance {
 			status := MAINTENANCE
-			oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else if *argPoweroff {
 			status := POWEROFF
-			oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else {
-			oremkrcli.FetchHost(client)
+			err := oremkrcli.FetchHost(client)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
 
 	// Monitor Commands
 	if *argType == "monitor" {
-		oremkrcli.FetchMonitorIDs(client)
+		err := oremkrcli.FetchMonitorIDs(client)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
+	// Alert Commands
 	if *argType == "alert" {
-		oremkrcli.FetchOpenAlertIDs(client)
+		err := oremkrcli.FetchOpenAlertIDs(client)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
+	// User Commands
 	if *argType == "user" {
-		oremkrcli.FetchUsers(client)
+		err := oremkrcli.FetchUsers(client)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 }

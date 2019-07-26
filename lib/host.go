@@ -12,7 +12,7 @@ const (
 )
 
 // FetchHost fetch hosts
-func FetchHost(client *mackerel.Client) {
+func FetchHost(client *mackerel.Client) error {
 	hostID, _ := client.FindHosts(
 		&mackerel.FindHostsParam{Statuses: []string{"working", "standby", "maintenance", "poweroff"}})
 
@@ -36,10 +36,12 @@ func FetchHost(client *mackerel.Client) {
 		hostLists = append(hostLists, hostList)
 	}
 	OutputFormat(hostLists, HOST)
+
+	return nil
 }
 
 // MakeHostStatus change host status
-func MakeHostStatus(client *mackerel.Client, hostIDs string, status string) {
+func MakeHostStatus(client *mackerel.Client, hostIDs string, status string) error {
 	// カンマ区切りを配列に変換
 	targetHostIDs := strings.Split(hostIDs, ",")
 
@@ -51,5 +53,5 @@ func MakeHostStatus(client *mackerel.Client, hostIDs string, status string) {
 			fmt.Printf("Sucessed change status: %s\n", targetHostIDs[i])
 		}
 	}
-
+	return nil
 }
