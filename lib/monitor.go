@@ -104,22 +104,39 @@ func FetchMonitorIDs(client *mackerel.Client) error {
 	meh := &MonitorExternalHTTPValues{}
 	mc := &MonitorConnectivityValues{}
 
-	MergeMonitorResult(
-		mhv.DescribeMonitorHostByID(client, listMonitorsHostIDs),
-		meh.DescribeMonitorExternalByID(client, listMonitorsExternalIDs),
-		mc.MonitorConnectivityByID(client, listMonitorConnectivityIDs),
-	)
+	monitorLists, err := mhv.DescribeMonitorHostByID(client, listMonitorsHostIDs)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	monitorExternalLists, err := meh.DescribeMonitorExternalByID(client, listMonitorsExternalIDs)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	monitorConnectivityLists, err := mc.MonitorConnectivityByID(client, listMonitorConnectivityIDs)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = MergeMonitorResult(monitorLists, monitorExternalLists, monitorConnectivityLists)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	return nil
 }
 
 // MergeMonitorResult merge monitor results.
-func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connectivityResult [][]string) {
+func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connectivityResult [][]string) error {
 	merged := append(hostResult, externalResult...)
 	OutputFormat(append(merged, connectivityResult...), MONITOR)
+
+	return nil
 }
 
 //MonitorConnectivityByID find monitor connectivity by id.
-func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Client, list []string) [][]string {
+func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Client, list []string) ([][]string, error) {
 	monitorLists := [][]string{}
 
 	for i := range list {
@@ -146,11 +163,11 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 		}
 		monitorLists = append(monitorLists, monitorList)
 	}
-	return monitorLists
+	return monitorLists, nil
 }
 
 // DescribeMonitorHostByID describe monitor hosts by id.
-func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, list []string) [][]string {
+func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, list []string) ([][]string, error) {
 	var stringCritical, stringWarning string
 	monitorLists := [][]string{}
 
@@ -190,11 +207,11 @@ func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, l
 
 		monitorLists = append(monitorLists, monitorList)
 	}
-	return monitorLists
+	return monitorLists, nil
 }
 
 // DescribeMonitorExternalByID describe monitor external by id.
-func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackerel.Client, list []string) [][]string {
+func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *mackerel.Client, list []string) ([][]string, error) {
 	monitorLists := [][]string{}
 
 	for i := range list {
@@ -216,5 +233,5 @@ func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *macker
 		}
 		monitorLists = append(monitorLists, monitorList)
 	}
-	return monitorLists
+	return monitorLists, nil
 }
