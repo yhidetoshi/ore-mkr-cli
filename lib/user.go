@@ -26,11 +26,12 @@ type UserValues struct {
 }
 
 // FetchUsers fetch users
-func FetchUsers(client *mackerel.Client) {
+func FetchUsers(client *mackerel.Client) error {
 	userLists := [][]string{}
 	users, err := client.FindUsers()
 	if err != nil {
-		fmt.Println("fail get users")
+		fmt.Println(err)
+		return err
 	}
 
 	for _, v := range users {
@@ -50,4 +51,6 @@ func FetchUsers(client *mackerel.Client) {
 		userLists = append(userLists, userList)
 	}
 	OutputFormat(userLists, USER)
+
+	return nil
 }

@@ -80,7 +80,7 @@ type MonitorExternalHTTPValues struct {
 }
 
 // FetchMonitorIDs fetch monitor ids.
-func FetchMonitorIDs(client *mackerel.Client) {
+func FetchMonitorIDs(client *mackerel.Client) error {
 	var listMonitorsHostIDs []string
 	var listMonitorConnectivityIDs []string
 	var listMonitorsExternalIDs []string
@@ -109,6 +109,7 @@ func FetchMonitorIDs(client *mackerel.Client) {
 		meh.DescribeMonitorExternalByID(client, listMonitorsExternalIDs),
 		mc.MonitorConnectivityByID(client, listMonitorConnectivityIDs),
 	)
+	return nil
 }
 
 // MergeMonitorResult merge monitor results.
@@ -122,11 +123,14 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 	monitorLists := [][]string{}
 
 	for i := range list {
-		res, _ := client.GetMonitor(list[i])
+		res, err := client.GetMonitor(list[i])
+		if err != nil {
+			fmt.Println(err)
+		}
 		valueBytesJSON, _ := json.Marshal(res)
 
 		if err := json.Unmarshal(valueBytesJSON, mc); err != nil {
-			fmt.Println("JSON Unmarshal error", err)
+			fmt.Println(err)
 		}
 		scope := strings.Join(mc.Scopes, ":")
 		monitorList := []string{
