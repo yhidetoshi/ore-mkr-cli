@@ -57,3 +57,13 @@ func FetchUsers(client *mackerel.Client) error {
 
 	return nil
 }
+
+func DeleteUser(client *mackerel.Client, userID string) error {
+	user, err := client.DeleteUser(userID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("Success Deleted %s\n", user.Email)
+
+	return nil
+}
