@@ -6,7 +6,7 @@ import (
 )
 
 // OutputFormat output table.
-func OutputFormat(data [][]string, resourceType string) {
+func OutputFormat(data [][]string, resourceType string) error {
 	table := tablewriter.NewWriter(os.Stdout)
 
 	switch resourceType {
@@ -24,4 +24,6 @@ func OutputFormat(data [][]string, resourceType string) {
 		table.Append(value)
 	}
 	table.Render()
+
+	return nil
 }

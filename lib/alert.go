@@ -54,7 +54,10 @@ func FetchOpenAlertIDs(client *mackerel.Client) error {
 		listOpenAlerts = append(listOpenAlerts, listOpenAlert)
 	}
 
-	OutputFormat(listOpenAlerts, ALERT)
+	err = OutputFormat(listOpenAlerts, ALERT)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return nil
 }
