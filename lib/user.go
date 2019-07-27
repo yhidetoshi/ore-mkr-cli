@@ -50,7 +50,10 @@ func FetchUsers(client *mackerel.Client) error {
 
 		userLists = append(userLists, userList)
 	}
-	OutputFormat(userLists, USER)
+	err = OutputFormat(userLists, USER)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return nil
 }

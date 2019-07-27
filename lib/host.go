@@ -13,8 +13,11 @@ const (
 
 // FetchHost fetch hosts
 func FetchHost(client *mackerel.Client) error {
-	hostID, _ := client.FindHosts(
+	hostID, err := client.FindHosts(
 		&mackerel.FindHostsParam{Statuses: []string{"working", "standby", "maintenance", "poweroff"}})
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	hostLists := [][]string{}
 
@@ -35,7 +38,10 @@ func FetchHost(client *mackerel.Client) error {
 		}
 		hostLists = append(hostLists, hostList)
 	}
-	OutputFormat(hostLists, HOST)
+	err = OutputFormat(hostLists, HOST)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return nil
 }

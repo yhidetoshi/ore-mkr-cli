@@ -130,7 +130,10 @@ func FetchMonitorIDs(client *mackerel.Client) error {
 // MergeMonitorResult merge monitor results.
 func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connectivityResult [][]string) error {
 	merged := append(hostResult, externalResult...)
-	OutputFormat(append(merged, connectivityResult...), MONITOR)
+	err := OutputFormat(append(merged, connectivityResult...), MONITOR)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return nil
 }
