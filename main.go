@@ -13,7 +13,7 @@ var (
 	// flag.String
 	argOrg    = flag.String("org", "", "set org")
 	argType   = flag.String("type", "", "set type")
-	argHostID = flag.String("target", "", "input target hostID")
+	argTarget = flag.String("target", "", "input target")
 
 	// flag.Bool
 	argWorking     = flag.Bool("working", false, "working")
@@ -21,6 +21,7 @@ var (
 	argRetire      = flag.Bool("retire", false, "retire host")
 	argMaintenance = flag.Bool("maintenance", false, "maintenance host")
 	argPoweroff    = flag.Bool("poweroff", false, "poweroff host")
+	argDelete      = flag.Bool("delete", false, "delete user")
 
 	// set mkr key each org
 	mkrKeyOrgA = os.Getenv("MKRKEY_OrgA")
@@ -63,25 +64,25 @@ func main() {
 	if *argType == "host" {
 		if *argWorking {
 			status := WORKING
-			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argTarget, status)
 			if err != nil {
 				fmt.Println(err)
 			}
 		} else if *argStandby {
 			status := STANDBY
-			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argTarget, status)
 			if err != nil {
 				fmt.Println(err)
 			}
 		} else if *argMaintenance {
 			status := MAINTENANCE
-			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argTarget, status)
 			if err != nil {
 				fmt.Println(err)
 			}
 		} else if *argPoweroff {
 			status := POWEROFF
-			err := oremkrcli.MakeHostStatus(client, *argHostID, status)
+			err := oremkrcli.MakeHostStatus(client, *argTarget, status)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -111,10 +112,16 @@ func main() {
 
 	// User Commands
 	if *argType == "user" {
-		err := oremkrcli.FetchUsers(client)
-		if err != nil {
-			fmt.Println(err)
+		if *argDelete {
+			err := oremkrcli.DeleteUser(client, *argTarget)
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			err := oremkrcli.FetchUsers(client)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
-
 }
