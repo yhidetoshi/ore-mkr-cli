@@ -67,13 +67,18 @@ OrgB        = "orgB"
 ### ユーザ系
 - Mackerel API ドキュメント
   - https://mackerel.io/ja/api-docs/entry/users
-  - mackerel-client-goにAPI実装がなかったのでPR作成してMergeしてもらった
-    - https://github.com/mackerelio/mackerel-client-go/pull/92
+  - mackerel-client-goにAPI実装がなかったのでPR作成してMerged
+    - ユーザ一覧(GET)
+      - https://github.com/mackerelio/mackerel-client-go/pull/92
+    - ユーザ削除(DELETE)
+      - https://github.com/mackerelio/mackerel-client-go/pull/94
     - Blog: https://yhidetoshi.hatenablog.com/entry/2019/07/20/093148
 
 ``` 
   ■ 一覧 
     > $ ore-mkr -org=<ORG> -type=user
+  ■ 削除
+    > $ ore-mkr -org=<ORG> -type=user -delete -target=<USERID>
 ```
 
 [実行結果]
