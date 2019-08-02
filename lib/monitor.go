@@ -41,6 +41,7 @@ type MonitorHostValues struct {
 	Duration         uint64   `json:"duration,omitempty"`
 	Scopes           []string `json:"scopes,omitempty"`
 	MaxCheckAttempts uint64   `json:"maxCheckAttempts,omitempty"`
+	ExcludeScopes    []string `json:"excludeScopes,omitempty"`
 }
 
 // MonitorConnectivityValues information
@@ -141,6 +142,7 @@ func MergeMonitorResult(hostResult [][]string, externalResult [][]string, connec
 //MonitorConnectivityByID find monitor connectivity by id.
 func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Client, list []string) ([][]string, error) {
 	monitorLists := [][]string{}
+	var excludeScope string
 
 	for i := range list {
 		res, err := client.GetMonitor(list[i])
@@ -153,11 +155,14 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 			fmt.Println(err)
 		}
 		scope := strings.Join(mc.Scopes, ":")
+		excludeScope = strings.Join(mc.ExcludeScopes, ":")
+
 		monitorList := []string{
 			//monitorConnectivityValues.ID,
 			mc.ID,
 			mc.Name,
 			scope,
+			excludeScope,
 			BLANK,
 			BLANK,
 			BLANK,
@@ -171,17 +176,25 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 
 // DescribeMonitorHostByID describe monitor hosts by id.
 func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, list []string) ([][]string, error) {
-	var stringCritical, stringWarning string
+	var stringCritical, stringWarning, excludeScope, scopes string
+
 	monitorLists := [][]string{}
 
 	for i := range list {
+
+		// 初期化
+		mhv.ExcludeScopes = nil
+
 		res, _ := client.GetMonitor(list[i])
 		valueBytesJSON, _ := json.Marshal(res)
 
 		if err := json.Unmarshal(valueBytesJSON, mhv); err != nil {
 			fmt.Println("JSON Unmarshal error", err)
 		}
-		scope := strings.Join(mhv.Scopes, ":")
+
+		scopes = strings.Join(mhv.Scopes, ":")
+		excludeScope = strings.Join(mhv.ExcludeScopes, ":")
+
 		// warninngがセットされてない場合の処理
 		if mhv.Warning == nil {
 			stringWarning = ""
@@ -199,8 +212,8 @@ func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, l
 		monitorList := []string{
 			mhv.ID,
 			mhv.Name,
-			//mhv.Type,
-			scope,
+			scopes,
+			excludeScope,
 			stringWarning,
 			stringCritical,
 			fmt.Sprint(mhv.Duration),
@@ -228,6 +241,7 @@ func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *macker
 			meh.ID,
 			meh.Name,
 			meh.Service,
+			BLANK,
 			fmt.Sprint(*meh.ResponseTimeWarning),
 			fmt.Sprint(*meh.ResponseTimeCritical),
 			fmt.Sprint(*meh.ResponseTimeDuration),
