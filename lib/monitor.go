@@ -161,6 +161,7 @@ func (mc *MonitorConnectivityValues) MonitorConnectivityByID(client *mackerel.Cl
 			//monitorConnectivityValues.ID,
 			mc.ID,
 			mc.Name,
+			fmt.Sprint(mc.IsMute),
 			scope,
 			excludeScope,
 			BLANK,
@@ -212,6 +213,7 @@ func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, l
 		monitorList := []string{
 			mhv.ID,
 			mhv.Name,
+			fmt.Sprint(mhv.IsMute),
 			scopes,
 			excludeScope,
 			stringWarning,
@@ -240,6 +242,7 @@ func (meh *MonitorExternalHTTPValues) DescribeMonitorExternalByID(client *macker
 		monitorList := []string{
 			meh.ID,
 			meh.Name,
+			fmt.Sprint(meh.IsMute),
 			meh.Service,
 			BLANK,
 			fmt.Sprint(*meh.ResponseTimeWarning),
