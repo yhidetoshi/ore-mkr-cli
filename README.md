@@ -10,6 +10,17 @@ Mackerelで運用するときによく行う情報参照や操作をCLIで楽に
 - mackerel-client-go
   - https://github.com/mackerelio/mackerel-client-go
 
+## Makefile
+
+- `$ make help`
+```bash
+build:             Build binaries
+build-deps:        Setup build
+deps:              Install dependencies
+help:              Show help
+```
+
+
 ## 初期設定 (ORGの設定)
 
 環境変数にMackerelのAPI-KEYをセットする
