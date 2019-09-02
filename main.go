@@ -9,6 +9,8 @@ import (
 	oremkrcli "github.com/yhidetoshi/ore-mkr-cli/lib"
 )
 
+const version = "0.0.1"
+
 var (
 	// flag.String
 	argOrg    = flag.String("org", "", "set org")
