@@ -187,7 +187,6 @@ func (mhv *MonitorHostValues) DescribeMonitorHostByID(client *mackerel.Client, l
 		mhv.ExcludeScopes = nil
 
 		res, _ := client.GetMonitor(list[i])
-		fmt.Println(res)
 		valueBytesJSON, _ := json.Marshal(res)
 
 		if err := json.Unmarshal(valueBytesJSON, mhv); err != nil {

@@ -1,3 +1,5 @@
+export GO111MODULE=on
+
 .PHONY: test
 test: lint gofmt
 
@@ -29,3 +31,34 @@ gofmt: testdeps
 .PHONY: cover
 cover: testdeps
 	goveralls
+
+
+
+## Install dependencies
+.PHONY: deps
+deps:
+	go get -v -d
+
+
+## Setup build
+.PHONY: pre-build
+build-deps:
+	go get -u github.com/mitchellh/gox
+
+
+## Build binaries
+.PHONY: build
+build: build-deps
+	gox -osarch="linux/amd64" -output=./bin/ore-mkr_linux-amd64 -ldflags "-s -w"
+	gox -osarch="darwin/amd64" -output=./bin/ore-mkr_macOS-amd64 -ldflags "-s -w"
+	gox -osarch="windows/amd64" -output=./bin/ore-mkr_windows-amd64 -ldflags "-s -w"
+	zip -r ./bin/cross-build.zip ./*
+	rm -f ./bin/ore-mkr_*
+	gobump show
+
+
+
+## Show help
+.PHONY: help
+help:
+	@make2help $(MAKEFILE_LIST)
