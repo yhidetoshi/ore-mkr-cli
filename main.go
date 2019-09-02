@@ -24,6 +24,7 @@ var (
 	argMaintenance = flag.Bool("maintenance", false, "maintenance host")
 	argPoweroff    = flag.Bool("poweroff", false, "poweroff host")
 	argDelete      = flag.Bool("delete", false, "delete user")
+	argVersion     = flag.Bool("version", false, "version")
 
 	// set mkr key each org
 	mkrKeyOrgA = os.Getenv("MKRKEY_OrgA")
@@ -60,6 +61,11 @@ func main() {
 
 	case OrgB:
 		client = mackerel.NewClient(mkrKeyOrgB)
+	}
+
+	// Version Commands
+	if *argVersion {
+		fmt.Printf("ore-mkr-cli version: \n%s\n", version)
 	}
 
 	// Host Commands
