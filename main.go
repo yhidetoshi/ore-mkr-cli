@@ -64,7 +64,7 @@ func main() {
 	}
 
 	// Version Commands
-	if *argVersion{
+	if *argVersion {
 		fmt.Printf("ore-mkr-cli version: \n%s\n", version)
 	}
 
