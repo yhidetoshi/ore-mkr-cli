@@ -54,7 +54,7 @@ OrgB        = "orgB"
     > $ ore-mkr -version
 ```
 ```
-ore-mkr-cli version:
+ore-mkr version:
 0.0.1
 ```
 
