@@ -8,5 +8,5 @@ script:
 after_script:
   - make cover
 env:
-#  - GO111MODULE=on
+  - GO111MODULE=on
   - GO111MODULE=off
